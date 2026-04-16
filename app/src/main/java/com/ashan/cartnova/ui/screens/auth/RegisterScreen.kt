@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,12 +43,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.R
+import com.ashan.cartnova.navigation.ROUTE_LOGIN
+import com.ashan.cartnova.navigation.ROUTE_ONBOARD2
 import com.ashan.cartnova.ui.theme.Pink20
 import com.ashan.cartnova.ui.theme.Pink40
 
 @Composable
-fun RegisterScreen(){
+fun RegisterScreen(navController: NavController){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +62,7 @@ fun RegisterScreen(){
     ) {
 
         Image(
-            painter = painterResource(R.drawable.img),
+            painter = painterResource(R.drawable.img_1),
             contentDescription = "product",
             modifier = Modifier.size(300.dp).clip(shape = RoundedCornerShape(20.dp))
 
@@ -148,13 +153,20 @@ fun RegisterScreen(){
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { },
+            onClick = {navController.navigate(ROUTE_ONBOARD2) },
             colors = ButtonDefaults.buttonColors(Pink40),
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier.width(150.dp),
         ) {
             Text(text = "Sign Up")
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        TextButton(onClick = {navController.navigate(ROUTE_LOGIN)}) {
+            Text(text = "Already have an account? Login!")
+        }
+
 
     }
 }
@@ -164,6 +176,6 @@ fun RegisterScreen(){
 @Composable
 fun RegisterScreenPreview(){
 
-    RegisterScreen()
+    RegisterScreen(rememberNavController())
 
 }

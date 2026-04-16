@@ -23,11 +23,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.R
+import com.ashan.cartnova.navigation.ROUTE_REGISTER
 import com.ashan.cartnova.ui.theme.Pink20
+import com.ashan.cartnova.ui.theme.Pink40
 
 @Composable
-fun OnBoardingScreen1(){
+fun OnBoardingScreen1(navController: NavController){
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -35,7 +39,7 @@ fun OnBoardingScreen1(){
     ) {
 
         Image(
-            painter = painterResource(R.drawable.product),
+            painter = painterResource(R.drawable.obs_2),
             contentDescription = "product",
             modifier = Modifier.size(300.dp)
 
@@ -50,7 +54,7 @@ fun OnBoardingScreen1(){
             fontSize = 40.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.Cursive,
-            color = Pink20
+            color = Pink40
         )
 
 
@@ -69,7 +73,7 @@ fun OnBoardingScreen1(){
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { },
+            onClick = {navController.navigate(ROUTE_REGISTER) },
             colors = ButtonDefaults.buttonColors(Pink20),
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier.width(350.dp)
@@ -97,6 +101,6 @@ fun OnBoardingScreen1(){
 @Composable
 fun OnBoardingScreen1Preview(){
 
-    OnBoardingScreen1()
+    OnBoardingScreen1(rememberNavController())
 
 }

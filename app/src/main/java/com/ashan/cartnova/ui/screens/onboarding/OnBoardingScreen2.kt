@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun OnBoardingScreen2(){
+fun OnBoardingScreen2(navController: NavController){
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -20,6 +22,6 @@ fun OnBoardingScreen2(){
 @Composable
 fun OnBoardingScreen2Preview(){
 
-    OnBoardingScreen2()
+    OnBoardingScreen2(rememberNavController())
 
 }
