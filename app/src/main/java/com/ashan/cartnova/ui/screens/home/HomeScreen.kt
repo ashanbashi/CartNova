@@ -1,257 +1,218 @@
 package com.ashan.cartnova.ui.screens.home
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.R
 import com.ashan.cartnova.navigation.ROUTE_INTENT
-import com.ashan.cartnova.ui.theme.CartNovaTheme
+import com.ashan.cartnova.navigation.ROUTE_CART
+import com.ashan.cartnova.navigation.ROUTE_DASHBOARD
+import com.ashan.cartnova.navigation.ROUTE_PRODUCT
 
-// -------------------- DATA MODELS --------------------
+// 🎨 COLORS
+val CoralPink = Color(0xFFE79A94)
+val SoftBlue = Color(0xFF9FB7BE)
+val PureWhite = Color(0xFFFFFFFF)
+val TextDark = Color(0xFF1A1A1A)
 
-data class Category(
-    val name: String,
-    val image: Int
-)
-
-data class Product(
-    val name: String,
-    val price: String,
-    val image: Int
-)
-
-// -------------------- MAIN SCREEN --------------------
-
+// ---------------- SCREEN ----------------
 @Composable
 fun HomeScreen(navController: NavController) {
-    HomeScreenContent(
-        onProductClick = {
-            navController.navigate(ROUTE_INTENT)
-        }
-    )
+    ModernHome(navController)
 }
 
-// -------------------- UI CONTENT --------------------
-
+// ---------------- UI ----------------
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenContent(onProductClick: () -> Unit) {
+fun ModernHome(navController: NavController) {
 
-    val categories = listOf(
-        Category("Groceries", R.drawable.grocery1),
-        Category("Electronics", R.drawable.grocery1),
-        Category("Fashion", R.drawable.grocery1),
-        Category("Home", R.drawable.grocery1)
-    )
+    Scaffold(
 
-    val products = List(10) {
-        Product("Product $it", "Ksh ${(it + 1) * 500}", R.drawable.grocery1)
-    }
+        containerColor = Color.Transparent,
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-
-        // 🔹 Top Bar
-        item {
+        topBar = {
             TopAppBar(
-                title = { Text("CartNova") },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Default.Menu, contentDescription = null)
-                    }
+                title = {
+                    Text("CartNova", color = PureWhite)
                 },
-                actions = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Default.ShoppingCart, contentDescription = null)
+
+                navigationIcon = {
+                    IconButton(onClick = {
+                        // optional: you can later control drawer state here
+                        navController.navigate(ROUTE_DASHBOARD)
+                    }) {
+                        Icon(Icons.Default.Menu, null, tint = PureWhite)
                     }
                 },
 
-                colors = topAppBarColors(
-                    containerColor = _root_ide_package_.com.ashan.cartnova.ui.theme.Pink40,
-                    navigationIconContentColor = Color.White,
-                    actionIconContentColor = Color.White,
-                    titleContentColor = Color.White
+                actions = {
+
+                    // 🛒 CART ICON FIXED
+                    IconButton(onClick = {
+                        navController.navigate(ROUTE_CART)
+                    }) {
+                        Icon(
+                            Icons.Default.ShoppingCart,
+                            contentDescription = "Cart",
+                            tint = PureWhite
+                        )
+                    }
+
+                    // 🔔 EXTRA ICON (optional)
+                    IconButton(onClick = {
+                        navController.navigate(ROUTE_INTENT)
+                    }) {
+                        Icon(Icons.Default.Notifications, null, tint = PureWhite)
+                    }
+                },
+
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = CoralPink
                 )
             )
         }
 
-        // 🔹 Banner
-        item {
-            Banner()
-        }
+    ) { padding ->
 
-        // 🔹 Categories
-        item {
-            SectionTitle("Categories")
-            CategoryList(categories)
-        }
-
-        // 🔹 Products
-        item {
-            SectionTitle("Popular Products")
-        }
-
-        gridItems(products, onProductClick)
-
-        item {
-            Spacer(modifier = Modifier.height(20.dp))
-        }
-    }
-}
-
-// -------------------- BANNER --------------------
-
-@Composable
-fun Banner() {
-    Image(
-        painter = painterResource(R.drawable.grocery1),
-        contentDescription = "banner",
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(180.dp)
-            .padding(10.dp)
-            .clip(RoundedCornerShape(16.dp)),
-        contentScale = ContentScale.Crop
-    )
-}
-
-// -------------------- SECTION TITLE --------------------
-
-@Composable
-fun SectionTitle(title: String) {
-    Text(
-        text = title,
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(16.dp)
-    )
-}
-
-// -------------------- CATEGORY LIST --------------------
-
-@Composable
-fun CategoryList(categories: List<Category>) {
-
-    Row(
-        modifier = Modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(horizontal = 10.dp)
-    ) {
-        categories.forEach {
-            CategoryItem(it)
-            Spacer(modifier = Modifier.width(12.dp))
-        }
-    }
-}
-
-@Composable
-fun CategoryItem(category: Category) {
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-        Image(
-            painter = painterResource(category.image),
-            contentDescription = category.name,
+        LazyColumn(
             modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(12.dp)),
-            contentScale = ContentScale.Crop
-        )
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(CoralPink, SoftBlue)
+                    )
+                )
+                .padding(padding)
+        ) {
 
-        Spacer(modifier = Modifier.height(6.dp))
+            // 🖼 HERO BANNER
+            item {
+                Image(
+                    painter = painterResource(R.drawable.obs_1),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            }
 
-        Text(text = category.name, fontSize = 14.sp)
+            // 🔥 TITLE
+            item {
+                Text(
+                    "Trending Now",
+                    color = PureWhite,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            // 🧩 PRODUCT LIST
+            item {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(10) { index ->
+                        ModernProductCard(
+                            name = "Item $index",
+                            price = "Ksh ${(index + 1) * 1500}",
+                            image = R.drawable.grocery1,
+                            onClick = {
+                                navController.navigate(ROUTE_PRODUCT)
+                            }
+                        )
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(20.dp)) }
+        }
     }
 }
 
-// -------------------- GRID --------------------
-
-fun LazyListScope.gridItems(
-    products: List<Product>,
+// ---------------- PRODUCT CARD ----------------
+@Composable
+fun ModernProductCard(
+    name: String,
+    price: String,
+    image: Int,
     onClick: () -> Unit
 ) {
-    items(products.chunked(2)) { rowItems ->
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            rowItems.forEach {
-                ProductItem(it, onClick)
-            }
-        }
+    var liked by remember { mutableStateOf(false) }
 
-        Spacer(modifier = Modifier.height(10.dp))
-    }
-}
-
-// -------------------- PRODUCT CARD --------------------
-
-@Composable
-fun ProductItem(product: Product, onClick: () -> Unit) {
-
-    Column(
-        modifier = Modifier
-            .width(160.dp)
-            .padding(8.dp)
+    Card(
+        modifier = Modifier.width(180.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = PureWhite)
     ) {
 
-        Image(
-            painter = painterResource(product.image),
-            contentDescription = product.name,
-            modifier = Modifier
-                .height(140.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp)),
-            contentScale = ContentScale.Crop
-        )
+        Column {
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Box {
 
-        Text(product.name, fontWeight = FontWeight.Bold)
+                Image(
+                    painter = painterResource(image),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(140.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                    contentScale = ContentScale.Crop
+                )
 
-        Text(product.price, color = Color.Gray)
+                IconButton(
+                    onClick = { liked = !liked },
+                    modifier = Modifier.align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        Icons.Default.Favorite,
+                        contentDescription = null,
+                        tint = if (liked) CoralPink else Color.LightGray
+                    )
+                }
+            }
 
-        Spacer(modifier = Modifier.height(6.dp))
+            Column(modifier = Modifier.padding(10.dp)) {
 
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Buy")
+                Text(name, color = TextDark, fontWeight = FontWeight.Bold)
+                Text(price, color = TextDark.copy(alpha = 0.7f))
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = onClick,
+                    colors = ButtonDefaults.buttonColors(containerColor = CoralPink),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text("Buy", color = PureWhite)
+                }
+            }
         }
     }
 }
 
-// -------------------- PREVIEW --------------------
-
+// ---------------- PREVIEW ----------------
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
-    CartNovaTheme {
-        HomeScreenContent(onProductClick = {})
-    }
+    HomeScreen(rememberNavController())
 }

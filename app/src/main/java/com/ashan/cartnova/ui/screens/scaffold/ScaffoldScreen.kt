@@ -1,5 +1,6 @@
 package com.ashan.cartnova.ui.screens.scaffold
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -31,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.navigation.ROUTE_HOME
+import com.ashan.cartnova.navigation.ROUTE_LOGIN
 import com.ashan.cartnova.ui.theme.Pink40
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +42,7 @@ fun ScaffoldScreen(navController: NavController){
 
     //Scaffold
 
-    var selectedIndex by remember { mutableStateOf(1) }
+    var selectedIndex by remember { mutableStateOf(0) }
 
     Scaffold(
 
@@ -62,7 +65,6 @@ fun ScaffoldScreen(navController: NavController){
                     IconButton(onClick = {}) { Icon(imageVector = Icons.Default.ShoppingCart, contentDescription ="") }
                     IconButton(onClick = {}) { Icon(imageVector = Icons.Default.Info, contentDescription ="") }
                 }
-
             )
         },
 
@@ -79,20 +81,27 @@ fun ScaffoldScreen(navController: NavController){
                     selected = selectedIndex == 0,
                     onClick = {
                         selectedIndex = 0
-                        navController.navigate(ROUTE_HOME)
+                        navController.navigate(ROUTE_LOGIN)
                     }
                 )
+
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
-                    label = { Text("Favorites") },
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Favorites") },
+                    label = { Text("Home") },
                     selected = selectedIndex == 1,
                     onClick = { selectedIndex = 1
                         navController.navigate(ROUTE_HOME)
                     }
                 )
 
-
-
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites", tint = Color.White ) },
+                    label = { Text("Favorites") },
+                    selected = selectedIndex == 1,
+                    onClick = { selectedIndex = 1
+                        navController.navigate(ROUTE_HOME)
+                    }
+                )
             }
         },
 

@@ -1,23 +1,16 @@
 package com.ashan.cartnova.ui.screens.onboarding
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,72 +20,84 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.R
 import com.ashan.cartnova.navigation.ROUTE_REGISTER
-import com.ashan.cartnova.ui.theme.Pink20
-import com.ashan.cartnova.ui.theme.Pink40
+
+// 🎨 SAME HOME SCREEN COLORS
+val CoralPink = Color(0xFFE79A94)
+val SoftBlue = Color(0xFF9FB7BE)
+val PureWhite = Color(0xFFFFFFFF)
+val TextDark = Color(0xFF1A1A1A)
 
 @Composable
-fun OnBoardingScreen1(navController: NavController){
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+fun OnBoardingScreen1(navController: NavController) {
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(CoralPink, SoftBlue)
+                )
+            )
     ) {
 
-        Image(
-            painter = painterResource(R.drawable.obs_2),
-            contentDescription = "product",
-            modifier = Modifier.size(300.dp)
-
-        )
-
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-
-        Text(
-            text = "Welcome To CartNova",
-            fontSize = 40.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.Cursive,
-            color = Pink40
-        )
-
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-
-        Text(
-            text = "The world is full of small, unnoticed moments that often carry the most meaning. A quiet sunrise, a kind word from a stranger, or the feeling of accomplishment after finishing a simple task can shape our days more than we realize. By slowing down and paying attention, we begin to appreciate these subtle experiences, finding joy not in grand events but in the gentle rhythm of everyday life.",
-            fontSize = 25.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.Cursive,
-
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {navController.navigate(ROUTE_REGISTER) },
-            colors = ButtonDefaults.buttonColors(Pink20),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier.width(350.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Get Started")
+
+            // 🖼 IMAGE (same style as hero banner)
+            Image(
+                painter = painterResource(R.drawable.obs_1),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(340.dp)
+                    .clip(RoundedCornerShape(24.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            // 🔥 TITLE (matches Home UI feel)
+            Text(
+                text = "Welcome to CartNova",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = PureWhite
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // 🧠 DESCRIPTION
+            Text(
+                text = "Discover trending products, shop easily, and enjoy a smooth modern shopping experience designed just for you.",
+                fontSize = 16.sp,
+                color = PureWhite.copy(alpha = 0.85f),
+                textAlign = TextAlign.Center,
+                lineHeight = 22.sp
+            )
+
+            Spacer(modifier = Modifier.height(35.dp))
+
+            // 🚀 BUTTON (same as product Buy button style)
+            Button(
+                onClick = { navController.navigate(ROUTE_REGISTER) },
+                colors = ButtonDefaults.buttonColors(containerColor = PureWhite),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+            ) {
+                Text(
+                    text = "Get Started",
+                    color = CoralPink,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
 

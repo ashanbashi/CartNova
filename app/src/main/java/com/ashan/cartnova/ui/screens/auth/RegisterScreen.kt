@@ -1,40 +1,16 @@
 package com.ashan.cartnova.ui.screens.auth
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,135 +23,144 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.R
 import com.ashan.cartnova.navigation.ROUTE_LOGIN
-import com.ashan.cartnova.navigation.ROUTE_ONBOARD2
-import com.ashan.cartnova.ui.theme.Pink20
-import com.ashan.cartnova.ui.theme.Pink40
 
 @Composable
-fun RegisterScreen(navController: NavController){
-    Column(
+fun RegisterScreen(navController: NavController) {
+
+    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .paint(painter = painterResource(R.drawable.bg), contentScale = ContentScale.FillBounds),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .background(
+                Brush.verticalGradient(listOf(CoralPink, SoftBlue))
+            )
     ) {
 
-        Image(
-            painter = painterResource(R.drawable.img_1),
-            contentDescription = "product",
-            modifier = Modifier.size(300.dp).clip(shape = RoundedCornerShape(20.dp))
-
-        )
-
-        Text(
-            text = "Join Us And Start Your Journey Today",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        //Variables
-
-        var username by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = username,
-            onValueChange = { username = it},
-            modifier = Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp),
-            label = { Text(text = "Username") },
-            leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription = "") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Pink40,
-                focusedBorderColor = Pink20,
-                focusedLeadingIconColor = Pink20
-            )
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        var email by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it},
-            modifier = Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp),
-            placeholder = { Text(text = "example@gmail.com") },
-            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Pink40,
-                focusedBorderColor = Pink20,
-                focusedLeadingIconColor = Pink20
-            )
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        var password by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it},
-            modifier = Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp),
-            label = { Text(text = "Password") },
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Pink40,
-                focusedBorderColor = Pink20,
-                focusedLeadingIconColor = Pink20
-            ),
-            visualTransformation = PasswordVisualTransformation()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        var confirmpassword by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = confirmpassword,
-            onValueChange = { confirmpassword = it},
-            modifier = Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp),
-            label = { Text(text = "Confirm Password") },
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Pink40,
-                focusedBorderColor = Pink20,
-                focusedLeadingIconColor = Pink20
-            ),
-            visualTransformation = PasswordVisualTransformation()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {navController.navigate(ROUTE_ONBOARD2) },
-            colors = ButtonDefaults.buttonColors(Pink40),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier.width(150.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Sign Up")
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Image(
+                painter = painterResource(R.drawable.img_1),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(160.dp)
+                    .clip(RoundedCornerShape(20.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                "Create Account",
+                fontSize = 26.sp,
+                fontWeight = FontWeight.Bold,
+                color = PureWhite
+            )
+
+            Text(
+                "Join CartNova today",
+                color = PureWhite.copy(alpha = 0.8f)
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = PureWhite),
+                elevation = CardDefaults.cardElevation(8.dp)
+            ) {
+
+                Column(modifier = Modifier.padding(16.dp)) {
+
+                    OutlinedTextField(
+                        value = username,
+                        onValueChange = { username = it },
+                        label = { Text("Username") },
+                        leadingIcon = {
+                            Icon(Icons.Default.Person, null, tint = CoralPink)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("Email") },
+                        leadingIcon = {
+                            Icon(Icons.Default.Email, null, tint = CoralPink)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Password") },
+                        leadingIcon = {
+                            Icon(Icons.Default.Lock, null, tint = CoralPink)
+                        },
+                        visualTransformation = PasswordVisualTransformation(),
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedTextField(
+                        value = confirmPassword,
+                        onValueChange = { confirmPassword = it },
+                        label = { Text("Confirm Password") },
+                        leadingIcon = {
+                            Icon(Icons.Default.Lock, null, tint = CoralPink)
+                        },
+                        visualTransformation = PasswordVisualTransformation(),
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(
+                        onClick = { navController.navigate(ROUTE_LOGIN) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = CoralPink),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("Sign Up", color = PureWhite)
+                    }
+
+                    TextButton(
+                        onClick = { navController.navigate(ROUTE_LOGIN) },
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text("Already have an account? Login", color = CoralPink)
+                    }
+                }
+            }
         }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        TextButton(onClick = {navController.navigate(ROUTE_LOGIN)}) {
-            Text(text = "Already have an account? Login!")
-        }
-
-
     }
 }
 
-
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun RegisterScreenPreview(){
-
+fun RegisterPreview() {
     RegisterScreen(rememberNavController())
-
 }

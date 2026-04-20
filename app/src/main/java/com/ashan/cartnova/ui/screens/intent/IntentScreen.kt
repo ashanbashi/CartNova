@@ -1,280 +1,187 @@
 package com.ashan.cartnova.ui.screens.intent
 
-
-
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.provider.MediaStore
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.navigation.ROUTE_HOME
-import com.ashan.cartnova.navigation.ROUTE_INTENT
-import com.ashan.cartnova.ui.theme.Pink20
-import com.ashan.cartnova.ui.theme.Pink40
 
+// 🎨 CARTNOVA COLORS
+val CoralPink = Color(0xFFE79A94)
+val SoftBlue = Color(0xFF9FB7BE)
+val PureWhite = Color(0xFFFFFFFF)
+val TextDark = Color(0xFF1A1A1A)
 
-@SuppressLint("AutoboxingStateCreation")
+@SuppressLint("QueryPermissionsNeeded")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IntentScreen(navController: NavController){
+fun IntentScreen(navController: NavController) {
 
-    val mContext = LocalContext.current
-
-
-    //Scaffold
-
+    val context = LocalContext.current
     var selectedIndex by remember { mutableStateOf(1) }
 
     Scaffold(
 
-        //TopBar
+        containerColor = Color.Transparent,
+
         topBar = {
             TopAppBar(
-                title = { Text("Intents") },
+                title = {
+                    Text("Intents Hub", color = PureWhite)
+                },
                 navigationIcon = {
-                    IconButton(onClick = { /* Handle back/nav */ }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, null, tint = PureWhite)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = _root_ide_package_.com.ashan.cartnova.ui.theme.Pink40,
-                    navigationIconContentColor = Color.White,
-                    actionIconContentColor = Color.White,
-                    titleContentColor = Color.White,
-                ),
-                actions = {
-                    IconButton(onClick = {}) { Icon(imageVector = Icons.Default.ShoppingCart, contentDescription ="") }
-                    IconButton(onClick = {}) { Icon(imageVector = Icons.Default.Info, contentDescription ="") }
-                }
-
+                    containerColor = CoralPink
+                )
             )
         },
 
-
-
-        //BottomBar
         bottomBar = {
-            NavigationBar(
-                containerColor = Pink40
-            ){
+            NavigationBar(containerColor = CoralPink) {
+
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Home") },
-                    label = { Text("Login") },
                     selected = selectedIndex == 0,
-                    onClick = {
-                        selectedIndex = 0
-                        navController.navigate(ROUTE_HOME)
-                    }
+                    onClick = { selectedIndex = 0; navController.navigate(ROUTE_HOME) },
+                    icon = { Icon(Icons.Default.Person, null) },
+                    label = { Text("Home") }
                 )
+
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
-                    label = { Text("Favorites") },
                     selected = selectedIndex == 1,
-                    onClick = { selectedIndex = 1
-                        navController.navigate(ROUTE_HOME)
-                    }
+                    onClick = { selectedIndex = 1 },
+                    icon = { Icon(Icons.Default.Favorite, null) },
+                    label = { Text("Actions") }
                 )
-
-
-
-            }
-        },
-
-        //FloatingActionButton
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /* Add action */ },
-                containerColor = Pink20
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }
-        },
-
-        //Contents
-
-        content = { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                // .background(newOrange)
-            ) {
-
-
-                //Main Contents of the page
-
-
-                Spacer(modifier = Modifier.height(40.dp))
-
-
-                //STK
-                Button(
-                    onClick = {
-
-
-                        val simToolKitLaunchIntent =
-                            mContext.packageManager.getLaunchIntentForPackage("com.android.stk")
-                        simToolKitLaunchIntent?.let { mContext.startActivity(it) }
-
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(Pink40),
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                ) {
-                    Text(text = "Mpesa")
-                }
-
-                Spacer(modifier = Modifier.height(40.dp))
-
-                //Call
-                Button(
-                    onClick = {
-                        val callIntent= Intent(Intent.ACTION_DIAL)
-                        callIntent.data="tel:0720245837".toUri()
-                        mContext.startActivity(callIntent)
-
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(Pink40),
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                ) {
-                    Text(text = "Call")
-                }
-
-                Spacer(modifier = Modifier.height(40.dp))
-
-                //SMS
-                Button(
-                    onClick = {
-                        val smsIntent=Intent(Intent.ACTION_SENDTO)
-                        smsIntent.data="smsto:0720245837".toUri()
-                        smsIntent.putExtra("sms_body","Hello Glory,how was your day?")
-                        mContext.startActivity(smsIntent)
-
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(Pink40),
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                ) {
-                    Text(text = "Send Message")
-                }
-
-                Spacer(modifier = Modifier.height(40.dp))
-
-                //Email
-                Button(
-                    onClick = {
-                        val shareIntent = Intent(Intent.ACTION_SEND)
-                        shareIntent.type = "text/plain"
-                        shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("akinyiglory2@gmail.com"))
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "subject")
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello, this is the email body")
-                        mContext.startActivity(shareIntent)
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(Pink40),
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                ) {
-                    Text(text = "Email Us")
-                }
-
-                Spacer(modifier = Modifier.height(40.dp))
-
-                //SHARE
-                Button(
-                    onClick = {
-                        val shareIntent=Intent(Intent.ACTION_SEND)
-                        shareIntent.type="text/plain"
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, "https://github.com/gloryakinyi")
-                        mContext.startActivity(Intent.createChooser(shareIntent, "Share"))
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(Pink40),
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                ) {
-                    Text(text = "Share")
-                }
-
-                Spacer(modifier = Modifier.height(40.dp))
-
-                //CAMERA
-                Button(
-                    onClick = {
-                        val cameraIntent=Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        if (cameraIntent.resolveActivity(mContext.packageManager)!=null){
-                            mContext.startActivity(cameraIntent)
-                        }else{
-                            println("Camera app is not available")
-                        }
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(Pink40),
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                ) {
-                    Text(text = "Camera")
-                }
-
-                Spacer(modifier = Modifier.height(40.dp))
-
-
-
-
-
-
-
-
-
-
             }
         }
-    )
 
-    //End of scaffold
+    ) { padding ->
 
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(CoralPink, SoftBlue)
+                    )
+                )
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
 
+            IntentCard("Mpesa Payment", Icons.Default.ShoppingCart) {
+                context.packageManager.getLaunchIntentForPackage("com.android.stk")
+                    ?.let { context.startActivity(it) }
+            }
 
+            IntentCard("Call Support", Icons.Default.Phone) {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = "tel:0720245837".toUri()
+                context.startActivity(intent)
+            }
+
+            IntentCard("Send SMS", Icons.Default.Send) {
+                val intent = Intent(Intent.ACTION_SENDTO)
+                intent.data = "smsto:0720245837".toUri()
+                intent.putExtra("sms_body", "Hello CartNova!")
+                context.startActivity(intent)
+            }
+
+            IntentCard("Email Us", Icons.Default.Email) {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("support@cartnova.com"))
+                intent.putExtra(Intent.EXTRA_SUBJECT, "CartNova Support")
+                intent.putExtra(Intent.EXTRA_TEXT, "Hello, I need help...")
+                context.startActivity(intent)
+            }
+
+            IntentCard("Share App", Icons.Default.Share) {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_TEXT, "https://github.com/cartnova")
+                context.startActivity(Intent.createChooser(intent, "Share"))
+            }
+
+            IntentCard("Open Camera", Icons.Default.Face) {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                if (intent.resolveActivity(context.packageManager) != null) {
+                    context.startActivity(intent)
+                }
+            }
+        }
+
+    }
 }
 
 @Composable
+fun IntentCard(
+    title: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit
+) {
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = PureWhite),
+        elevation = CardDefaults.cardElevation(6.dp)
+    ) {
+
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = CoralPink
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Text(
+                text = title,
+                color = TextDark,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(1f)
+            )
+
+            Icon(
+                imageVector = Icons.Default.ArrowForward,
+                contentDescription = null,
+                tint = SoftBlue
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
-fun IntentScreenPreview(){
+@Composable
+fun IntentScreenPreview() {
     IntentScreen(rememberNavController())
 }

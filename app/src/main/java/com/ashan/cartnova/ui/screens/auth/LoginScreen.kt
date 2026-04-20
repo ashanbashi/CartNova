@@ -1,37 +1,16 @@
 package com.ashan.cartnova.ui.screens.auth
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,103 +24,128 @@ import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.R
 import com.ashan.cartnova.navigation.ROUTE_HOME
 import com.ashan.cartnova.navigation.ROUTE_REGISTER
-import com.ashan.cartnova.ui.theme.Pink20
-import com.ashan.cartnova.ui.theme.Pink40
+
+// 🎨 THEME
+val CoralPink = Color(0xFFE79A94)
+val SoftBlue = Color(0xFF9FB7BE)
+val PureWhite = Color(0xFFFFFFFF)
+val TextDark = Color(0xFF1A1A1A)
 
 @Composable
-fun LoginScreen(navController: NavController){
-    Column(
+fun LoginScreen(navController: NavController) {
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .paint(painter = painterResource(R.drawable.bg), contentScale = ContentScale.FillBounds),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .background(
+                Brush.verticalGradient(listOf(CoralPink, SoftBlue))
+            )
     ) {
 
-        Image(
-            painter = painterResource(R.drawable.img_1),
-            contentDescription = "product",
-            modifier = Modifier.size(300.dp).clip(shape = RoundedCornerShape(20.dp))
-
-        )
-
-        Text(
-            text = "Login! Welcome:)",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        //Variables
-
-
-        var email by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it},
-            modifier = Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp),
-            placeholder = { Text(text = "example@gmail.com") },
-            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Pink40,
-                focusedBorderColor = Pink20,
-                focusedLeadingIconColor = Pink20
-            )
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        var password by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it},
-            modifier = Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp),
-            label = { Text(text = "Password") },
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Pink40,
-                focusedBorderColor = Pink20,
-                focusedLeadingIconColor = Pink20
-            ),
-            visualTransformation = PasswordVisualTransformation()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {navController.navigate(ROUTE_HOME) },
-            colors = ButtonDefaults.buttonColors(Pink40),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier.width(150.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Log In")
+
+            Spacer(modifier = Modifier.height(50.dp))
+
+            Image(
+                painter = painterResource(R.drawable.img_1),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(160.dp)
+                    .clip(RoundedCornerShape(20.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                "Welcome Back",
+                fontSize = 26.sp,
+                fontWeight = FontWeight.Bold,
+                color = PureWhite
+            )
+
+            Text(
+                "Login to continue",
+                color = PureWhite.copy(alpha = 0.8f)
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = PureWhite),
+                elevation = CardDefaults.cardElevation(8.dp)
+            ) {
+
+                Column(modifier = Modifier.padding(16.dp)) {
+
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("Email") },
+                        leadingIcon = {
+                            Icon(Icons.Default.Email, null, tint = CoralPink)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Password") },
+                        leadingIcon = {
+                            Icon(Icons.Default.Lock, null, tint = CoralPink)
+                        },
+                        visualTransformation = PasswordVisualTransformation(),
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(
+                        onClick = { navController.navigate(ROUTE_HOME) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = CoralPink),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("Login", color = PureWhite)
+                    }
+
+                    TextButton(
+                        onClick = { navController.navigate(ROUTE_REGISTER) },
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text("Don't have an account? Register", color = CoralPink)
+                    }
+
+                    TextButton(
+                        onClick = { navController.navigate(ROUTE_HOME) },
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text("Go To HomePage", color = CoralPink)
+                    }
+                }
+            }
         }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        TextButton(onClick = {navController.navigate(ROUTE_REGISTER)}) {
-            Text(text = "Don't have an account? Register!")
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        TextButton(onClick = {navController.navigate(ROUTE_HOME)}) {
-            Text(text = "Go To Home")
-        }
-
     }
 }
 
-
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun LoginScreenPreview(){
-
+fun LoginPreview() {
     LoginScreen(rememberNavController())
-
 }
