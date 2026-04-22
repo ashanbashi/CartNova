@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "691097855017",
+    "project_id": "cartnova-d8db0",
+    "storage_bucket": "cartnova-d8db0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691097855017:android:f267fa2c7f9ef6448ca838",
+        "android_client_info": {
+          "package_name": "com.ashan.cartnova"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL992yS6dwXiLxaWcDqcioccynzGGwcxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
