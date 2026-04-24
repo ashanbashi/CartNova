@@ -12,16 +12,19 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ashan.cartnova.R
+import com.ashan.cartnova.data.AuthViewModel
 import com.ashan.cartnova.navigation.ROUTE_HOME
 import com.ashan.cartnova.navigation.ROUTE_REGISTER
 
@@ -36,6 +39,7 @@ fun LoginScreen(navController: NavController) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -97,7 +101,8 @@ fun LoginScreen(navController: NavController) {
                             Icon(Icons.Default.Email, null, tint = CoralPink)
                         },
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                     )
 
                     Spacer(modifier = Modifier.height(12.dp))
@@ -109,15 +114,31 @@ fun LoginScreen(navController: NavController) {
                         leadingIcon = {
                             Icon(Icons.Default.Lock, null, tint = CoralPink)
                         },
-                        visualTransformation = PasswordVisualTransformation(),
+                        trailingIcon = {
+                            val image = if (passwordVisible)
+                                Icons.Default.Visibility
+                            else Icons.Default.VisibilityOff
+
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Icon(imageVector = image, contentDescription = "Toggle password")
+                            }
+                        },
+                        visualTransformation = if (passwordVisible)
+                            VisualTransformation.None
+                        else PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    // Login Button
+                    val context = LocalContext.current
+                    val authViewModel = AuthViewModel(navController, context)
+
                     Button(
-                        onClick = { navController.navigate(ROUTE_HOME) },
+                        onClick = { authViewModel.login(email, password) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(containerColor = CoralPink),
                         shape = RoundedCornerShape(12.dp)

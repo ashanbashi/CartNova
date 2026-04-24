@@ -14,3 +14,8 @@ const val ROUTE_SCAFFOLD = "scaffold"
 const val ROUTE_DASHBOARD = "dashboard"
 const val ROUTE_PRODUCT = "product"
 const val ROUTE_CART = "cart"
+
+//CRUD Database
+const val ROUTE_ADD_PRODUCT = "addproduct"
+const val ROUTE_VIEW_PRODUCTS = "viewproducts"
+const val ROUTE_UPDATE_PRODUCT = "update_product/{productId}"

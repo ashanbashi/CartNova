@@ -3,9 +3,11 @@ package com.ashan.cartnova.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 import com.ashan.cartnova.ui.screens.splash.SplashScreen
 import com.ashan.cartnova.ui.screens.onboarding.OnBoardingScreen1
@@ -23,6 +25,9 @@ import com.ashan.cartnova.ui.screens.cards.BusinessCards
 import com.ashan.cartnova.ui.screens.product.ProductScreen
 import com.ashan.cartnova.ui.screens.cart.CartScreen
 import com.ashan.cartnova.ui.screens.payment.PaymentScreen
+import com.ashan.cartnova.ui.screens.products.AddProductScreen
+import com.ashan.cartnova.ui.screens.products.UpdateProductScreen
+import com.ashan.cartnova.ui.screens.products.ViewProductScreen
 
 @Composable
 fun AppNavHost(
@@ -98,6 +103,18 @@ fun AppNavHost(
         // 💰 PAYMENT
         composable(ROUTE_PAYMENT) {
             PaymentScreen(navController)
+        }
+
+        composable(ROUTE_ADD_PRODUCT) { AddProductScreen(navController) }
+
+        composable(ROUTE_VIEW_PRODUCTS) { ViewProductScreen(navController) }
+
+        composable(
+            ROUTE_UPDATE_PRODUCT,
+            arguments = listOf(navArgument("productId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId")!!
+            UpdateProductScreen(navController, productId)
         }
     }
 }
