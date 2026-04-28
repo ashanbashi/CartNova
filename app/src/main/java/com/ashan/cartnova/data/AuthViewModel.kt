@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.navigation.NavController
 import com.ashan.cartnova.models.User
+import com.ashan.cartnova.navigation.ROUTE_ADD_PRODUCT
 import com.ashan.cartnova.navigation.ROUTE_DASHBOARD
 import com.ashan.cartnova.navigation.ROUTE_HOME
 import com.ashan.cartnova.navigation.ROUTE_LOGIN
@@ -83,7 +84,7 @@ class AuthViewModel(var navController: NavController, var context: Context){
                         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
 
                         if (role == "admin") {
-                            navController.navigate(ROUTE_DASHBOARD)   // <-- change to your actual route
+                            navController.navigate(ROUTE_ADD_PRODUCT)   // <-- change to your actual route
                         }
 
 
